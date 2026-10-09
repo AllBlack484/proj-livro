@@ -1,0 +1,25 @@
+<h1>Livros</h1>
+<hr>
+
+{{#each livro}}
+Nome: {{nome}}
+Email: {{email}}
+Texto: {{texto}}
+
+<a href="/admin/livros/edit/{{id}}" class="btn btn-primary">
+    Editar
+</a>
+
+{{!-- Excluir --}}
+<form action="/admin/livros/delete/{{id}}" method="POST">
+    <button type="submit" class="btn btn-danger">
+        Excluir
+    </button>
+</form>
+
+<hr>
+
+{{else}}
+    <p>Nenhum livro encontrado.</p>
+    
+{{/each}}

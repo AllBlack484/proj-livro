@@ -1,7 +1,6 @@
-<h1>Admin Dashboard</h1>
-
-<h4>Olá {{user.nome}}!</h4>
-
-<a href="/admin/livro" class="btn btn-primary">
-    lista de livros
-</a>
+<h1>Painel administrativo</h1>
+<p>Olá, {{user.nome}}! Aqui você pode gerenciar os livros e as avaliações.</p>
+<div class="d-flex gap-2 flex-wrap">
+    <a href="/admin/livros" class="btn btn-primary">Gerenciar livros</a>
+    <a href="/admin/avaliacoes" class="btn btn-outline-primary">Gerenciar avaliações</a>
+</div>

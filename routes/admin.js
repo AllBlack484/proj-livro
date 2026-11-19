@@ -1,55 +1,114 @@
-const express = require('express');
-const router =  express.Router()
+const express = require('express')
+const router = express.Router()
 const mongoose = require('mongoose')
-// Chamando a coleção Comentario.js
-require('../models/Livro')
-const Livro = mongoose.model('livros')
+const Livro = require('../models/Livro')
+const Avaliacao = require('../models/Avaliacao')
+const { eAdmin } = require('../helpers/conta')
 
-//Helper para verificar se é admin
-const {eAdmin} = require('../helpers/conta')
+router.use(eAdmin)
 
-//rotas ------------------
-//pagina principal do admin
-router.get('/', eAdmin, function(req, res){
-    res.render('admin/index')
+router.get('/', (req, res) => res.render('admin/index'))
+
+router.get('/livros', async (req, res) => {
+    try {
+        const livros = await Livro.find().sort({ titulo: 1 }).lean()
+        res.render('admin/livros', { livros })
+    } catch (erro) {
+        console.error(erro)
+        req.flash('error_msg', 'Erro ao listar livros.')
+        res.redirect('/admin')
+    }
 })
 
-//listando os comentarios enviados
-router.get('/livros', eAdmin, function(req, res){
+router.get('/livros/novo', (req, res) => res.render('admin/form-livro', { pagina: 'Cadastrar livro', acao: '/admin/livros/novo' }))
 
-//buscar um comentario no banco de dados
-Livro.find().lean()
-.then((livros) =>{
-    res.render('admin/livros', {livros})
-})
-.catch((error)=> {
-    req.flash('error_msg', 'erro ao listar livros')
-    res.redirect('/admin')
-})
-
-})
-
-//pagina de edicção de comentarios
-router.get('/livros/edit/:id', eAdmin, function(req, res){
-    //encontrando um comentario
-    Livro.findOne({_id: req.params.id}).lean()
-    .then((livro) => {
-        res.render('admin/edit-livro', {livro})
-    })
-    .catch((error)=> {
-        req.flash('error_msg', 'Erro ao carregar livro')
+router.post('/livros/novo', async (req, res) => {
+    try {
+        const { titulo, autor, descricao, capa, genero } = req.body
+        if (!titulo || !autor) {
+            req.flash('error_msg', 'Título e autor são obrigatórios.')
+            return res.redirect('/admin/livros/novo')
+        }
+        await Livro.create({ titulo, autor, descricao, capa, genero })
+        req.flash('success_msg', 'Livro cadastrado com sucesso!')
         res.redirect('/admin/livros')
-    })
+    } catch (erro) {
+        console.error(erro)
+        req.flash('error_msg', 'Não foi possível cadastrar o livro.')
+        res.redirect('/admin/livros/novo')
+    }
 })
 
-//salvando as alterações feitas no comentario
-router.post('/livros/edit', eAdmin, function(req, res){
-
+router.get('/livros/editar/:id', async (req, res) => {
+    try {
+        const livro = await Livro.findById(req.params.id).lean()
+        if (!livro) {
+            req.flash('error_msg', 'Livro não encontrado.')
+            return res.redirect('/admin/livros')
+        }
+        res.render('admin/form-livro', { pagina: 'Editar livro', acao: `/admin/livros/editar/${livro._id}`, livro })
+    } catch (erro) {
+        req.flash('error_msg', 'Identificador de livro inválido.')
+        res.redirect('/admin/livros')
+    }
 })
 
-// excluindo o comentario
-router.post('/livros/delete', eAdmin, function(req, res){
+router.post('/livros/editar/:id', async (req, res) => {
+    try {
+        const { titulo, autor, descricao, capa, genero } = req.body
+        const livro = await Livro.findByIdAndUpdate(req.params.id,
+            { titulo, autor, descricao, capa, genero }, { new: true, runValidators: true })
+        if (!livro) {
+            req.flash('error_msg', 'Livro não encontrado.')
+            return res.redirect('/admin/livros')
+        }
+        req.flash('success_msg', 'Livro atualizado com sucesso!')
+        res.redirect('/admin/livros')
+    } catch (erro) {
+        console.error(erro)
+        req.flash('error_msg', 'Não foi possível atualizar o livro.')
+        res.redirect('/admin/livros')
+    }
+})
 
+router.post('/livros/excluir/:id', async (req, res) => {
+    try {
+        const livro = await Livro.findByIdAndDelete(req.params.id)
+        if (!livro) {
+            req.flash('error_msg', 'Livro não encontrado.')
+            return res.redirect('/admin/livros')
+        }
+        await Avaliacao.deleteMany({ livro: livro._id })
+        req.flash('success_msg', 'Livro e suas avaliações foram excluídos.')
+        res.redirect('/admin/livros')
+    } catch (erro) {
+        console.error(erro)
+        req.flash('error_msg', 'Não foi possível excluir o livro.')
+        res.redirect('/admin/livros')
+    }
+})
+
+router.get('/avaliacoes', async (req, res) => {
+    try {
+        const avaliacoes = await Avaliacao.find()
+            .populate('livro', 'titulo').populate('usuario', 'nome email')
+            .sort({ createdAt: -1 }).lean()
+        res.render('admin/avaliacoes', { avaliacoes })
+    } catch (erro) {
+        console.error(erro)
+        req.flash('error_msg', 'Erro ao listar avaliações.')
+        res.redirect('/admin')
+    }
+})
+
+router.post('/avaliacoes/excluir/:id', async (req, res) => {
+    try {
+        await Avaliacao.findByIdAndDelete(req.params.id)
+        req.flash('success_msg', 'Avaliação excluída com sucesso.')
+    } catch (erro) {
+        req.flash('error_msg', 'Não foi possível excluir a avaliação.')
+    }
+    res.redirect('/admin/avaliacoes')
 })
 
 module.exports = router

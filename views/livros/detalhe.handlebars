@@ -1,0 +1,54 @@
+<a href="/livros" class="btn btn-outline-secondary btn-sm mb-3">Voltar aos livros</a>
+<div class="row g-4">
+    <div class="col-md-4">
+        {{#if livro.capa}}<img src="{{livro.capa}}" alt="Capa de {{livro.titulo}}" class="img-fluid rounded shadow-sm">{{/if}}
+    </div>
+    <div class="col-md-8">
+        <h1>{{livro.titulo}}</h1>
+        <h5 class="text-muted">{{livro.autor}}</h5>
+        {{#if livro.genero}}<p><strong>Gênero:</strong> {{livro.genero}}</p>{{/if}}
+        <p>{{livro.descricao}}</p>
+        <h4>Nota média: {{media}} / 5</h4>
+        <p>{{totalAvaliacoes}} avaliações</p>
+    </div>
+</div>
+{{#if meu}}
+<div class="d-flex gap-2 mt-3 mb-3">
+    <a href="/livros/{{livro._id}}/editar" class="btn btn-primary">Editar minha resenha</a>
+    <form method="POST" action="/livros/{{livro._id}}/excluir" onsubmit="return confirm('Excluir esta resenha?')">
+        <button type="submit" class="btn btn-danger">Excluir minha resenha</button>
+    </form>
+</div>
+{{/if}}
+<hr>
+<h3>{{#if meu}}Sua avaliação{{else}}Deixe sua avaliação{{/if}}</h3>
+{{#if user}}
+<form method="POST" action="/livros/{{livro._id}}/avaliar" class="mb-4">
+    <label for="estrelas" class="form-label">Sua nota</label>
+    <select class="form-select mb-3" name="estrelas" id="estrelas" required>
+        <option value="">Selecione de 1 a 5 estrelas</option>
+        <option value="1" {{#if (eq minhaAvaliacao.estrelas 1)}}selected{{/if}}>1 estrela</option>
+        <option value="2" {{#if (eq minhaAvaliacao.estrelas 2)}}selected{{/if}}>2 estrelas</option>
+        <option value="3" {{#if (eq minhaAvaliacao.estrelas 3)}}selected{{/if}}>3 estrelas</option>
+        <option value="4" {{#if (eq minhaAvaliacao.estrelas 4)}}selected{{/if}}>4 estrelas</option>
+        <option value="5" {{#if (eq minhaAvaliacao.estrelas 5)}}selected{{/if}}>5 estrelas</option>
+    </select>
+    <label for="comentario" class="form-label">Comentário</label>
+    <textarea class="form-control mb-3" name="comentario" id="comentario" rows="3" maxlength="1000">{{minhaAvaliacao.comentario}}</textarea>
+    <button class="btn btn-success" type="submit">Salvar avaliação</button>
+    {{#if minhaAvaliacao}}<small class="text-muted ms-2">Você já avaliou este livro. Enviar novamente atualizará sua avaliação.</small>{{/if}}
+</form>
+{{else}}
+<p><a href="/usuarios/login">Entre na sua conta</a> para avaliar este livro.</p>
+{{/if}}
+<hr>
+<h3>Avaliações dos leitores</h3>
+{{#each avaliacoes}}
+<div class="border rounded p-3 mb-3">
+    <div class="d-flex justify-content-between"><strong>{{usuario.nome}}</strong><span class="text-warning">{{estrelas estrelas}}</span></div>
+    <p class="mb-1">{{comentario}}</p>
+    <small class="text-muted">{{createdAt}}</small>
+</div>
+{{else}}
+<p>Este livro ainda não recebeu avaliações.</p>
+{{/each}}

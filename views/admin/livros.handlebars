@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Gerenciar livros</h1>
+    <a href="/admin/livros/novo" class="btn btn-success">Cadastrar livro</a>
+</div>
+{{#each livros}}
+<div class="card mb-3"><div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div><h5 class="mb-1">{{titulo}}</h5><p class="mb-0 text-muted">{{autor}}</p></div>
+    <div class="d-flex gap-2">
+        <a href="/admin/livros/editar/{{_id}}" class="btn btn-primary btn-sm">Editar</a>
+        <form method="POST" action="/admin/livros/excluir/{{_id}}" onsubmit="return confirm('Excluir este livro e todas as avaliações dele?')"><button class="btn btn-danger btn-sm" type="submit">Excluir</button></form>
+    </div>
+</div></div>
+{{else}}<p>Nenhum livro cadastrado.</p>{{/each}}

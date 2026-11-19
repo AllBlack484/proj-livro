@@ -1,76 +1,44 @@
-//app.js
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
 const express = require('express')
 const handlebars = require('express-handlebars')
 const session = require('express-session')
 const flash = require('connect-flash')
-
-//Chamando as Rotas externas
-const admin = require('./routes/admin')
-const usuarios = require('./routes/usuario')
-
-//Iniciando o Express
-const app = express()
-
-//Manipulando pastas
+const mongoose = require('mongoose')
+const passport = require('passport')
 const path = require('path')
 
-//MODELS
+const admin = require('./routes/admin')
+const usuarios = require('./routes/usuario')
+const livros = require('./routes/livros')
+require('./models/Usuario')
 require('./models/Livro')
-const Livro = mongoose.model('livros')
+require('./models/Avaliacao')
 
-//CONFIGURAÇÕES --------------------------
-
-//bodyParser
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-
-//HandleBars
-app.set('views', path.join(__dirname, 'views'))
-app.engine('handlebars', handlebars.engine({ defaultLayout: 'main',
-    helpers: {
-       eq: (a, b) => a == b
-    } }))
-app.set('view engine', 'handlebars')
-
-//Configurar a pasta pública
+const app = express()
+app.use(express.urlencoded({ extended: true, limit: '4mb' }))
+app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
-//Moongose
-mongoose.Promise = global.Promise
-mongoose.connect('mongodb://127.0.0.1:27017/appAdmin').then(() => {
-    console.log('Conectado ao Mongo')
-}).catch((err) => {
-    console.log('Erro: ' + err)
-})
-
-//SESSÃO ---------------------------------------------------
-//Dados da sessão são armazenados no banco de dados
-app.use(session({
-    //Chave para Criptografar os cookies da sessão
-    secret: 'appcoment',
-    //Se a cada requisição tenho que salvar ou não a sessão
-    resave: false,
-    //Se eu devo ou não salvar sessões anonimas
-    saveUninitialized: true,
-    //Tempo de duração da sessão (30min)
-    cookie: { maxAge: 30 * 60 * 1000 },
+app.set('views', path.join(__dirname, 'views'))
+app.engine('handlebars', handlebars.engine({
+    defaultLayout: 'main',
+    helpers: {
+        eq: (a, b) => String(a) === String(b),
+        estrelas: (nota) => '★'.repeat(Number(nota)) + '☆'.repeat(5 - Number(nota))
+    }
 }))
+app.set('view engine', 'handlebars')
 
-//MIDDLEWARE ------------------------------------------------
-//Usando o Flash para mandar mensegens
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'troque-esta-chave-de-sessao',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 30 * 60 * 1000, httpOnly: true, sameSite: 'lax' }
+}))
 app.use(flash())
-
-// Passport
-const passport = require('passport')
 require('./config/auth')(passport)
 app.use(passport.initialize())
 app.use(passport.session())
-
 app.use((req, res, next) => {
-    // Pegar o usuário
-    // res.locals.user = req.user || null
     res.locals.user = req.user ? req.user.toObject() : null
     res.locals.success_msg = req.flash('success_msg')
     res.locals.error_msg = req.flash('error_msg')
@@ -78,42 +46,39 @@ app.use((req, res, next) => {
     next()
 })
 
-//ROTAS -------------------------------------------------------
 app.use('/admin', admin)
 app.use('/usuarios', usuarios)
+app.use('/livros', livros)
 
-
-//Index
-app.get('/', (req, res) => {
-    res.render('index')
-})
-
-//Contato
-app.get('/contato', (req, res) => {
-    res.render('contato')
-})
-
-//Enviar Contato
-app.post('/contato/enviar', (req, res) => {
-
-    //Criando um novo comentário
-    const novoLivro = {
-        nome: req.body.nome,
-        email: req.body.email,
-        texto: req.body.texto
-    }
-    new livro(novoLivro).save().then(() => {
-        req.flash('success_msg', 'Contato enviado com sucesso!')
+app.get('/', (req, res) => res.redirect('/livros'))
+app.get('/contato', (req, res) => res.render('contato'))
+app.post('/contato/enviar', async (req, res) => {
+    try {
+        const Contato = require('./models/Comentario')
+        const { nome, email, texto } = req.body
+        if (!nome || !email || !texto) {
+            req.flash('error_msg', 'Preencha todos os campos do contato.')
+            return res.redirect('/contato')
+        }
+        await Contato.create({ nome, email, texto })
+        req.flash('success_msg', 'Mensagem enviada com sucesso!')
         res.redirect('/contato')
-    }).catch((err) => {
-        req.flash('error_msg', 'Falha ao enviar o contato: ' + err)
-        res.redirect('/')
+    } catch (erro) {
+        console.error(erro)
+        req.flash('error_msg', 'Não foi possível enviar sua mensagem.')
+        res.redirect('/contato')
+    }
+})
+
+const PORT = process.env.PORT || 3000
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/appAdmin'
+
+mongoose.connect(MONGO_URI)
+    .then(() => {
+        console.log('Conectado ao MongoDB')
+        app.listen(PORT, () => console.log(`Servidor iniciado em http://localhost:${PORT}`))
     })
-})
-
-
-//Conexão do Servidor --------------------------------
-const PORT = 3000
-app.listen(PORT, () => {
-    console.log('Servidor Iniciado!')
-})
+    .catch(erro => {
+        console.error('Não foi possível conectar ao MongoDB:', erro.message)
+        process.exit(1)
+    })

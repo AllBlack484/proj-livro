@@ -1,0 +1,15 @@
+<h1>{{pagina}}</h1>
+<form method="POST" action="{{acao}}" class="col-lg-8">
+    <label class="form-label" for="titulo">Título *</label>
+    <input class="form-control mb-3" id="titulo" name="titulo" value="{{livro.titulo}}" required>
+    <label class="form-label" for="autor">Autor *</label>
+    <input class="form-control mb-3" id="autor" name="autor" value="{{livro.autor}}" required>
+    <label class="form-label" for="genero">Gênero</label>
+    <input class="form-control mb-3" id="genero" name="genero" value="{{livro.genero}}">
+    <label class="form-label" for="capa">URL da capa (opcional)</label>
+    <input class="form-control mb-3" id="capa" name="capa" value="{{livro.capa}}">
+    <label class="form-label" for="descricao">Descrição</label>
+    <textarea class="form-control mb-3" id="descricao" name="descricao" rows="4">{{livro.descricao}}</textarea>
+    <button class="btn btn-success" type="submit">Salvar</button>
+    <a href="/admin/livros" class="btn btn-secondary">Cancelar</a>
+</form>

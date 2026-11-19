@@ -1,0 +1,24 @@
+<a href="/livros" class="btn btn-outline-secondary btn-sm mb-3">Voltar</a>
+<h1>{{pagina}}</h1>
+<p class="text-muted">Escolha uma capa, escreva sua opinião e dê uma nota para o livro.</p>
+<form method="POST" action="{{acao}}" data-imagem>
+    <div class="mb-3"><label class="form-label" for="titulo">Título do livro</label>
+        <input class="form-control" id="titulo" name="titulo" value="{{livro.titulo}}" maxlength="150" required></div>
+    <div class="mb-3"><label class="form-label" for="arquivo">Imagem da capa (JPG, PNG ou WebP, até 2 MB)</label>
+        <input class="form-control" type="file" id="arquivo" accept="image/jpeg,image/png,image/webp" {{#unless livro}}required{{/unless}}>
+        {{#if livro.capa}}<img src="{{livro.capa}}" class="img-thumbnail mt-2" alt="Capa atual" style="max-height:160px"><p class="small text-muted">Deixe vazio para manter a imagem atual.</p>{{/if}}
+        <input type="hidden" name="imagem"></div>
+    <div class="mb-3"><label class="form-label" for="comentario">Seu comentário</label>
+        <textarea class="form-control" id="comentario" name="comentario" rows="4" maxlength="1000" required>{{avaliacao.comentario}}</textarea></div>
+    <div class="mb-3"><label class="form-label" for="estrelas">Nota de 1 a 5 estrelas</label>
+        <select class="form-select" id="estrelas" name="estrelas" required>
+            <option value="">Escolha uma nota</option>
+            <option value="1" {{#if (eq avaliacao.estrelas 1)}}selected{{/if}}>1 estrela</option>
+            <option value="2" {{#if (eq avaliacao.estrelas 2)}}selected{{/if}}>2 estrelas</option>
+            <option value="3" {{#if (eq avaliacao.estrelas 3)}}selected{{/if}}>3 estrelas</option>
+            <option value="4" {{#if (eq avaliacao.estrelas 4)}}selected{{/if}}>4 estrelas</option>
+            <option value="5" {{#if (eq avaliacao.estrelas 5)}}selected{{/if}}>5 estrelas</option>
+        </select></div>
+    <button class="btn btn-success" type="submit">Salvar resenha</button>
+</form>
+<script src="/js/imagem-resenha.js"></script>

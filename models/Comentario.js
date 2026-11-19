@@ -1,26 +1,9 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
-// Criando a estrutura da coleção do mongo - Comentario
-const Livro = new Schema({
-    nome: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    texto: {
-        type: String,
-        required: true
-    }
-},
+const ComentarioSchema = new mongoose.Schema({
+    nome: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true },
+    texto: { type: String, required: true, trim: true }
+}, { timestamps: true })
 
-//Pegando a data e a hora do envio do comentário
-{timestamps: true}
-
-)
-
-// Exportar a coleção para outros arquivos
-mongoose.model('livros', Livro)
+module.exports = mongoose.models.contatos || mongoose.model('contatos', ComentarioSchema)

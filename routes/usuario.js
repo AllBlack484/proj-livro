@@ -5,6 +5,7 @@ const passport = require('passport')
 const Usuario = require('../models/Usuario')
 const { eUser } = require('../helpers/conta')
 
+// Exibe o cadastro e salva novos usuários com senha protegida e acesso comum.
 router.get('/registro', (req, res) => res.render('registro'))
 
 router.post('/registro/cad', async (req, res) => {
@@ -37,6 +38,7 @@ router.post('/registro/cad', async (req, res) => {
     }
 })
 
+// Autentica com Passport e direciona usuário ou administrador após o login.
 router.get('/login', (req, res) => res.render('login'))
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (erro, usuario) => {
@@ -52,6 +54,7 @@ router.post('/login', (req, res, next) => {
     })(req, res, next)
 })
 
+// Encerra a sessão; o GET abaixo mantém compatibilidade com links antigos.
 router.post('/logout', (req, res, next) => {
     req.logout(erro => {
         if (erro) return next(erro)
@@ -66,6 +69,7 @@ router.get('/logout', (req, res, next) => {
     })
 })
 
+// Mostra e permite atualizar os dados da própria conta.
 router.get('/conta', eUser, (req, res) => res.render('usuarios/conta', { user: req.user.toObject() }))
 
 router.post('/conta/edit', eUser, async (req, res) => {

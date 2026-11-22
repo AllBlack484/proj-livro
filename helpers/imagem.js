@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 
-// Recebe a imagem em base64 do formulário e salva em public/uploads.
+// Confere o formato e o tamanho da capa recebida e salva em public/uploads.
 function salvarImagem(imagem) {
     if (!imagem || typeof imagem !== 'string') throw new Error('Selecione uma imagem.')
     const partes = imagem.match(/^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+/=]+)$/)
@@ -24,6 +24,7 @@ function salvarImagem(imagem) {
     return '/uploads/' + nome
 }
 
+// Remove a capa salva quando ela é substituída ou a resenha é excluída.
 function excluirImagem(caminho) {
     if (typeof caminho !== 'string' || !/^\/uploads\/[a-f0-9-]+\.(jpg|png|webp)$/.test(caminho)) return
     try { fs.unlinkSync(path.join(__dirname, '..', 'public', 'uploads', path.basename(caminho))) }

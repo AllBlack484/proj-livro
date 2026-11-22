@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// Define os dados de cadastro, endereço, senha e nível de acesso de cada usuário.
 const UsuarioSchema = new mongoose.Schema({
     nome: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },

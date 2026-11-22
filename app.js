@@ -1,3 +1,4 @@
+// Importa as bibliotecas e os arquivos de rotas usados pelo servidor.
 const express = require('express')
 const handlebars = require('express-handlebars')
 const session = require('express-session')
@@ -13,11 +14,13 @@ require('./models/Usuario')
 require('./models/Livro')
 require('./models/Avaliacao')
 
+// Prepara o Express para receber formulários, JSON e arquivos públicos.
 const app = express()
 app.use(express.urlencoded({ extended: true, limit: '4mb' }))
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Configura as páginas Handlebars e os recursos usados para exibir notas.
 app.set('views', path.join(__dirname, 'views'))
 app.engine('handlebars', handlebars.engine({
     defaultLayout: 'main',
@@ -28,6 +31,7 @@ app.engine('handlebars', handlebars.engine({
 }))
 app.set('view engine', 'handlebars')
 
+// Configura sessões, login e mensagens que aparecem nas páginas.
 app.use(session({
     secret: process.env.SESSION_SECRET || 'troque-esta-chave-de-sessao',
     resave: false,
@@ -46,10 +50,12 @@ app.use((req, res, next) => {
     next()
 })
 
+// Separa os endereços do site por área: administração, usuários e livros.
 app.use('/admin', admin)
 app.use('/usuarios', usuarios)
 app.use('/livros', livros)
 
+// Define a página inicial e recebe mensagens do formulário de contato.
 app.get('/', (req, res) => res.redirect('/livros'))
 app.get('/contato', (req, res) => res.render('contato'))
 app.post('/contato/enviar', async (req, res) => {
@@ -70,6 +76,7 @@ app.post('/contato/enviar', async (req, res) => {
     }
 })
 
+// Conecta ao MongoDB e só inicia o servidor após confirmar a conexão.
 const PORT = process.env.PORT || 3000
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/appAdmin'
 

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// Guarda mensagens da página de contato; não são as avaliações dos livros.
 const ComentarioSchema = new mongoose.Schema({
     nome: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true },

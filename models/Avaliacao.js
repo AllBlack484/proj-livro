@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// Liga a nota e o comentário a um livro e ao usuário que avaliou.
 const AvaliacaoSchema = new mongoose.Schema({
     livro: { type: mongoose.Schema.Types.ObjectId, ref: 'livros', required: true },
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'usuarios', required: true },

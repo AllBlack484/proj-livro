@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// Define as informações dos livros, incluindo capa e usuário que publicou.
 const LivroSchema = new mongoose.Schema({
     titulo: { type: String, required: true, trim: true },
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'usuarios' },

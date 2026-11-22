@@ -1,3 +1,4 @@
+// Define como o Passport verifica o email e a senha durante o login.
 const LocalStrategy = require('passport-local').Strategy
 const Usuario = require('../models/Usuario')
 const bcrypt = require('bcryptjs')
@@ -18,6 +19,7 @@ module.exports = function (passport) {
         }
     ))
 
+    // Guarda o ID na sessão e recupera os dados do usuário quando necessário.
     passport.serializeUser((usuario, done) => done(null, usuario.id))
     passport.deserializeUser(async (id, done) => {
         try {

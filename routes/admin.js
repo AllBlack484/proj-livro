@@ -5,8 +5,10 @@ const Livro = require('../models/Livro')
 const Avaliacao = require('../models/Avaliacao')
 const { eAdmin } = require('../helpers/conta')
 
+// Exige permissão de administrador para todas as rotas abaixo.
 router.use(eAdmin)
 
+// Mostra o painel inicial e a lista de livros para gerenciamento.
 router.get('/', (req, res) => res.render('admin/index'))
 
 router.get('/livros', async (req, res) => {
@@ -20,6 +22,7 @@ router.get('/livros', async (req, res) => {
     }
 })
 
+// Reúne as ações de cadastrar, editar e excluir livros pelo administrador.
 router.get('/livros/novo', (req, res) => res.render('admin/form-livro', { pagina: 'Cadastrar livro', acao: '/admin/livros/novo' }))
 
 router.post('/livros/novo', async (req, res) => {
@@ -88,6 +91,7 @@ router.post('/livros/excluir/:id', async (req, res) => {
     }
 })
 
+// Permite ao administrador consultar e excluir avaliações dos usuários.
 router.get('/avaliacoes', async (req, res) => {
     try {
         const avaliacoes = await Avaliacao.find()

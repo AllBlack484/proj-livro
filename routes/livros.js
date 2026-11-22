@@ -6,7 +6,7 @@ const { eUser } = require('../helpers/conta')
 const { salvarImagem, excluirImagem } = require('../helpers/imagem')
 const mongoose = require('mongoose')
 
-// Lista pública de livros.
+// Mostra a lista pública de livros e calcula a média das avaliações.
 router.get('/', async (req, res) => {
     try {
         const livros = await Livro.find().sort({ titulo: 1 }).lean()
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
 })
 
 
-// Usuários cadastrados podem publicar suas próprias resenhas.
+// Permite publicar uma resenha com título, capa, comentário e nota.
 router.get('/novo', eUser, (req, res) => {
     res.render('livros/form-resenha', { pagina: 'Nova resenha', acao: '/livros/novo' })
 })
@@ -59,7 +59,7 @@ router.post('/novo', eUser, async (req, res) => {
     }
 })
 
-// Somente quem publicou pode editar ou excluir sua resenha.
+// Exibe e salva a edição da resenha apenas para quem a publicou.
 router.get('/:id/editar', eUser, async (req, res) => {
     try {
         if (!mongoose.isValidObjectId(req.params.id)) return res.redirect('/livros')
@@ -106,6 +106,7 @@ router.post('/:id/editar', eUser, async (req, res) => {
     }
 })
 
+// Exclui a resenha do autor, suas avaliações e a imagem salva.
 router.post('/:id/excluir', eUser, async (req, res) => {
     try {
         if (!mongoose.isValidObjectId(req.params.id)) throw new Error('Identificador inválido.')
@@ -122,7 +123,7 @@ router.post('/:id/excluir', eUser, async (req, res) => {
     res.redirect('/livros')
 })
 
-// Detalhes do livro e avaliações.
+// Carrega os detalhes do livro, os comentários e a média de estrelas.
 router.get('/:id', async (req, res) => {
     try {
         const livro = await Livro.findById(req.params.id).lean()
@@ -154,7 +155,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-// Usuário autenticado cria ou atualiza a própria avaliação.
+// Usuários logados podem criar ou atualizar sua avaliação de um livro.
 router.post('/:id/avaliar', eUser, async (req, res) => {
     try {
         const livro = await Livro.findById(req.params.id)

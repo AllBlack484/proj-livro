@@ -58,7 +58,7 @@ body {
 
 hr {
   margin: 1rem 0;
-  color: inherit;
+  color: pink;
   background-color: currentColor;
   border: 0;
   opacity: 0.25;
@@ -10831,6 +10831,11 @@ textarea.form-control-lg {
 
   .d-print-none {
     display: none !important;
+  }
+
+  body{
+     background-color: #F7F4EE !important;
+
   }
 }
 

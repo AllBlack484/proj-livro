@@ -14,9 +14,9 @@
 </div>
 {{#if meu}}
 <div class="d-flex gap-2 mt-3 mb-3">
-    <a href="/livros/{{livro._id}}/editar" class="btn btn-primary">Editar minha resenha</a>
+    <a href="/livros/{{livro._id}}/editar" class="btn btn-primary" style="background-color: #cf9191; border-color: #923367; color: white;">Editar minha resenha</a>
     <form method="POST" action="/livros/{{livro._id}}/excluir" onsubmit="return confirm('Excluir esta resenha?')">
-        <button type="submit" class="btn btn-danger">Excluir minha resenha</button>
+        <button type="submit" class="btn btn-danger"style="background-color: #500404; border-color: #830000; color: white;">Excluir minha resenha</button>
     </form>
 </div>
 {{/if}}
@@ -35,7 +35,7 @@
     </select>
     <label for="comentario" class="form-label">Comentário</label>
     <textarea class="form-control mb-3" name="comentario" id="comentario" rows="3" maxlength="1000">{{minhaAvaliacao.comentario}}</textarea>
-    <button class="btn btn-success" type="submit">Salvar avaliação</button>
+    <button class="btn btn-success" type="submit" style="background-color: #00852c; border-color: #016e32; color: white;">Salvar avaliação</button>
     {{#if minhaAvaliacao}}<small class="text-muted ms-2">Você já avaliou este livro. Enviar novamente atualizará sua avaliação.</small>{{/if}}
 </form>
 {{else}}

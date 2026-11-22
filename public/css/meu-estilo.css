@@ -7,57 +7,54 @@ html, body {
     color: #FFFDFB;
 }
 
-.card{
-    backgroun-color:#FFFCF9;
+.card {
+    background-color: #FFFCF9;
     border: 1px solid #e8dcd5;
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 3px 12px rgba(80, 50, 40 0.08);
-    transition: transform 0.03s ease, box-shadow 0.3s ease;
+    box-shadow: 0 3px 12px rgba(80, 50, 40, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 
 .card:hover {
- transform: translateY(-4px);
- box-shadow: 0 6px 18px rgba(80, 50, 40 0.13);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(80, 50, 40, 0.13);
 }
 
 
 .card-img-top {
-     height: 260px;
-     width: 100%;
-     object-fit: contain;
-     padding: 12px;
-     background-color: #f8f3ef;
+    height: 260px;
+    width: 100%;
+    object-fit: contain;
+    padding: 12px;
+    background-color: #f8f3ef;
 }
 
 
 .card-title {
-    color: #55413f:
+    color: #55413f;
     font-family: Georgia, serif;
     font-weight: 600;
-
 }
 
 
 .card-body p {
-color:#74535E;
-font-size:14px;
+    color: #74535E;
+    font-size: 14px;
 }
 
-.card .bnt-primary{
+.card .btn-primary {
     background-color: #536f62 !important;
-
     border-color: #536f62 !important;
     color: #ffffff !important;
     border-radius: 8px !important;
-
 }
 
 
 .titulo-avaliacoes {
-  text-align: center !important;
-  width: 100%;
-  margin: 20px auto 30px ;
-  display: block;
- }
+    text-align: center !important;
+    width: 100%;
+    margin: 20px auto 30px;
+    display: block;
+}

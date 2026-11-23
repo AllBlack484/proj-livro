@@ -11,7 +11,7 @@
 1. Instale o Node.js e inicie o MongoDB localmente (ou configure um banco no MongoDB Atlas).
 2. No terminal, dentro da pasta do projeto, execute `npm install`.
 3. Opcionalmente, copie `.env.example` para `.env` e ajuste `MONGO_URI`, `SESSION_SECRET` e `PORT`. Para carregar `.env`, instale `dotenv` e adicione `require('dotenv').config()` no início do `app.js`.
-4. Execute `npm start`.
+4. Execute `Node app.js`.
 5. Acesse `http://localhost:3000`.
 
 ## Tornar uma conta administradora

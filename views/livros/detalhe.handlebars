@@ -1,5 +1,5 @@
 <a href="/livros" class="btn btn-outline-secondary btn-sm mb-3">Voltar aos livros</a>
-<div class="row g-4">
+<div class="row g-4 livro-detalhe">
     <div class="col-md-4">
         {{#if livro.capa}}<img src="{{livro.capa}}" alt="Capa de {{livro.titulo}}" class="img-fluid rounded shadow-sm">{{/if}}
     </div>
@@ -8,7 +8,7 @@
         <h5 class="text-muted">{{livro.autor}}</h5>
         {{#if livro.genero}}<p><strong>Gênero:</strong> {{livro.genero}}</p>{{/if}}
         <p>{{livro.descricao}}</p>
-        <h4>Nota média: {{media}} / 5</h4>
+        <h4 class="nota-media">Nota média: {{media}} / 5</h4>
         <p>{{totalAvaliacoes}} avaliações</p>
     </div>
 </div>
@@ -21,9 +21,9 @@
 </div>
 {{/if}}
 <hr>
-<h3>{{#if meu}}Sua avaliação{{else}}Deixe sua avaliação{{/if}}</h3>
+<h3 class="titulo-secao">{{#if meu}}Sua avaliação{{else}}Deixe sua avaliação{{/if}}</h3>
 {{#if user}}
-<form method="POST" action="/livros/{{livro._id}}/avaliar" class="mb-4">
+<form method="POST" action="/livros/{{livro._id}}/avaliar" class="mb-4 form-avaliacao">
     <label for="estrelas" class="form-label">Sua nota</label>
     <select class="form-select mb-3" name="estrelas" id="estrelas" required>
         <option value="">Selecione de 1 a 5 estrelas</option>
@@ -42,9 +42,9 @@
 <p><a href="/usuarios/login">Entre na sua conta</a> para avaliar este livro.</p>
 {{/if}}
 <hr>
-<h3>Avaliações dos leitores</h3>
+<h3 class="titulo-secao">Avaliações dos leitores</h3>
 {{#each avaliacoes}}
-<div class="border rounded p-3 mb-3">
+<div class="border rounded p-3 mb-3 card-avaliacao">
     <div class="d-flex justify-content-between"><strong>{{usuario.nome}}</strong><span class="text-warning">{{estrelas estrelas}}</span></div>
     <p class="mb-1">{{comentario}}</p>
     <small class="text-muted">{{createdAt}}</small>

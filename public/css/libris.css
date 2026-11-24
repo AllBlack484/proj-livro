@@ -1,0 +1,893 @@
+/* =====================================================================
+   LIBRIS — CSS PRINCIPAL
+   Este arquivo é carregado depois do Bootstrap. Por isso, tudo o que
+   escrevemos aqui substitui a aparência padrão do Bootstrap.
+   ===================================================================== */
+
+
+/* ---------- 1. VARIÁVEIS GLOBAIS ----------
+   Aqui estamos guardando as cores, fontes e sombras do site em
+   variáveis. Assim, se quisermos trocar a cor dos botões, por exemplo,
+   mudamos só aqui e o site inteiro muda junto. */
+:root {
+    --cor-fundo: #F7F1E8;
+    --cor-areia: #E8D8C3;
+    --cor-areia-clara: #EFE1D1;
+    --cor-rosa: #B76E79;
+    --cor-rosa-escuro: #8F4F5A;
+    --cor-texto: #3A3030;
+    --cor-texto-suave: #6E5E5C;
+    --cor-card: #FFFDF9;
+    --cor-estrela: #C9963F;
+    --cor-borda: #E6D6C4;
+    --cor-perigo: #A3434F;
+
+    --fonte-titulo: "Noto Serif", Georgia, "Times New Roman", serif;
+    --fonte-texto: "Noto Sans", "Segoe UI", Arial, sans-serif;
+
+    --raio-grande: 20px;
+    --raio-medio: 14px;
+    --raio-pilula: 999px;
+    --sombra-suave: 0 6px 20px rgba(58, 48, 48, 0.07);
+    --sombra-forte: 0 14px 32px rgba(58, 48, 48, 0.13);
+
+    --transicao: 0.25s ease;
+}
+
+
+/* ---------- 2. CONFIGURAÇÕES GERAIS ----------
+   Aqui estamos fazendo a página rolar suavemente quando clicamos em
+   "Explorar livros" e deixando o texto selecionado com fundo rosa. */
+html {
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background-color: var(--cor-rosa);
+    color: #fff;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+/* ---------- 3. CORPO E TIPOGRAFIA ----------
+   Aqui estamos alterando o fundo do site para creme, a cor do texto
+   para marrom escuro e as fontes: os títulos usam uma fonte com serifa
+   (parecida com a de livros) e os textos uma fonte mais simples. */
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: var(--fonte-texto);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: var(--fonte-titulo);
+    color: var(--cor-texto);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.text-muted {
+    color: var(--cor-texto-suave) !important;
+}
+
+a {
+    color: var(--cor-rosa-escuro);
+    transition: color var(--transicao);
+}
+
+a:hover {
+    color: var(--cor-rosa);
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--cor-borda);
+    opacity: 1;
+    margin: 2.5rem 0;
+}
+
+/* Aqui estamos alterando a área onde fica o conteúdo de todas as
+   páginas: limitamos a largura (igual à da imagem de referência) e
+   colocamos uma animação para o conteúdo aparecer subindo ao abrir. */
+.conteudo-principal {
+    max-width: 1212px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 4rem;
+    animation: surgir 0.6s ease both;
+}
+
+/* Aqui estamos estilizando os textinhos pequenos em letras maiúsculas
+   que aparecem acima dos títulos, como "ESCOLHIDOS PARA VOCÊ". */
+.sobretitulo {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-family: var(--fonte-texto);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cor-rosa-escuro);
+}
+
+
+/* ---------- 4. CABEÇALHO (NAVBAR) ----------
+   Aqui estamos alterando a barra do topo do site: trocamos o roxo
+   antigo pela cor areia e, com position: sticky, fazemos a barra
+   ficar presa no topo mesmo quando rolamos a página. */
+.navbar-libris {
+    background-color: var(--cor-areia);
+    padding: 0.9rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    box-shadow: 0 1px 0 rgba(58, 48, 48, 0.06);
+}
+
+.navbar-libris .container-fluid {
+    max-width: 1212px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.navbar-libris .navbar-brand {
+    padding: 0;
+    margin-right: 1rem;
+}
+
+/* Aqui estamos definindo o tamanho do logo do Libris e fazendo ele
+   aumentar um pouquinho quando passamos o mouse em cima. */
+.navbar-libris .navbar-brand img {
+    height: 58px;
+    width: auto;
+    display: block;
+    transition: transform var(--transicao);
+}
+
+.navbar-libris .navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.navbar-libris .navbar-toggler {
+    border: 1px solid rgba(58, 48, 48, 0.2);
+    border-radius: var(--raio-medio);
+    padding: 0.4rem 0.6rem;
+}
+
+.navbar-libris .navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(183, 110, 121, 0.35);
+}
+
+
+/* ---------- 5. LINKS DO MENU ----------
+   Aqui estamos alterando os links do menu (Livros, Contato, Entrar...).
+   Quando passamos o mouse, aparece uma linha rosa embaixo do link.
+   Essa linha é criada pelo ::after e começa escondida (scaleX(0));
+   no hover ela cresce até o tamanho normal (scaleX(1)). */
+.navbar-libris .nav-link {
+    position: relative;
+    color: var(--cor-texto);
+    font-weight: 500;
+    padding: 0.5rem 0.85rem !important;
+    transition: color var(--transicao);
+}
+
+.navbar-libris .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0.85rem;
+    right: 0.85rem;
+    bottom: 0.25rem;
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--cor-rosa);
+    transform: scaleX(0);
+    transition: transform var(--transicao);
+}
+
+.navbar-libris .nav-link:hover,
+.navbar-libris .nav-link:focus {
+    color: var(--cor-rosa-escuro);
+}
+
+.navbar-libris .nav-link:hover::after,
+.navbar-libris .nav-link:focus::after {
+    transform: scaleX(1);
+}
+
+/* Aqui estamos transformando o link "Cadastrar" do menu em um botão
+   rosa arredondado, para ele chamar mais atenção que os outros. */
+.navbar-libris .nav-link.nav-destaque {
+    background-color: var(--cor-rosa);
+    color: #fff;
+    border-radius: var(--raio-pilula);
+    padding: 0.55rem 1.25rem !important;
+    margin-left: 0.4rem;
+    transition: background-color var(--transicao), transform var(--transicao);
+}
+
+.navbar-libris .nav-link.nav-destaque::after {
+    display: none;
+}
+
+.navbar-libris .nav-link.nav-destaque:hover,
+.navbar-libris .nav-link.nav-destaque:focus {
+    background-color: var(--cor-rosa-escuro);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+
+/* ---------- 6. BANNER PRINCIPAL (HERO) ----------
+   Aqui estamos criando o banner grande do topo da página de livros
+   ("Encontre sua próxima história"). Usamos Flexbox para centralizar
+   o texto, um degradê de fundo com um brilho rosado no meio e cantos
+   arredondados. */
+.hero-libris {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 370px;
+    margin-bottom: 3.5rem;
+    padding: 3rem 2rem;
+    border-radius: var(--raio-grande);
+    overflow: hidden;
+    text-align: center;
+    background:
+        radial-gradient(ellipse at 50% 45%, rgba(239, 205, 196, 0.85) 0%, rgba(239, 205, 196, 0) 55%),
+        linear-gradient(180deg, #EEDCC9 0%, #EFDCC9 78%, #E3C3AA 100%);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Aqui estamos colocando as ilustrações dos dois lados do banner (a
+   xícara com livros na esquerda e a vela na direita). Elas são criadas
+   pelo próprio CSS com ::before e ::after, sem precisar de <img> no
+   HTML. O mask-image apaga a borda da imagem aos poucos, para ela se
+   misturar com o fundo do banner. */
+.hero-libris::before,
+.hero-libris::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+    animation: surgir-lado 0.9s ease 0.15s both;
+}
+
+.hero-libris::before {
+    left: 0;
+    width: 352px;
+    background-image: url("/img/hero-esquerda.webp");
+    background-position: left bottom;
+    -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000 80%, transparent 100%);
+}
+
+.hero-libris::after {
+    right: 0;
+    width: 280px;
+    background-image: url("/img/hero-direita.webp");
+    background-position: right bottom;
+    -webkit-mask-image: linear-gradient(270deg, #000 80%, transparent 100%);
+    mask-image: linear-gradient(270deg, #000 80%, transparent 100%);
+}
+
+/* Aqui estamos garantindo que o texto do banner fique na frente das
+   ilustrações (z-index: 1). */
+.hero-conteudo {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+}
+
+/* Aqui estamos definindo o tamanho do título do banner. O clamp()
+   faz o título diminuir no celular e aumentar no computador sozinho. */
+.hero-libris h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.08;
+    margin-bottom: 1.2rem;
+}
+
+.hero-libris h1 em {
+    display: block;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--cor-rosa-escuro);
+}
+
+.hero-libris p {
+    font-size: 1.05rem;
+    margin-bottom: 1.6rem;
+}
+
+
+/* ---------- 7. CABEÇALHO DA BIBLIOTECA E AVISO DE LISTA VAZIA ----------
+   Aqui estamos alinhando o título "Biblioteca" na esquerda e o botão
+   "Publicar resenha" na direita, usando Flexbox com space-between. */
+.cabecalho-secao {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.cabecalho-secao h1 {
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+    margin-bottom: 0.25rem;
+}
+
+.cabecalho-secao p {
+    margin-bottom: 0;
+}
+
+/* Aqui estamos estilizando a caixa com borda tracejada que aparece
+   quando ainda não existe nenhum livro cadastrado. O calc() serve para
+   ela ficar alinhada certinho com o título da seção. */
+.estado-vazio {
+    width: calc(100% - var(--bs-gutter-x));
+    margin-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: calc(var(--bs-gutter-x) * 0.5);
+    padding: 2.25rem 1.5rem;
+    background-color: var(--cor-card);
+    border: 1.5px dashed #CDB0A4;
+    border-radius: var(--raio-grande);
+    text-align: center;
+    color: var(--cor-texto-suave);
+}
+
+
+/* ---------- 8. CARDS DOS LIVROS ----------
+   Aqui estamos alterando os cards de cada livro da biblioteca: fundo
+   claro, cantos arredondados e sombra. Quando passamos o mouse, o card
+   sobe um pouco e a sombra aumenta, parecendo que ele "flutua". */
+.card {
+    background-color: var(--cor-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+    overflow: hidden;
+    box-shadow: var(--sombra-suave) !important;
+    transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+.card-livro:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--sombra-forte) !important;
+}
+
+/* Aqui estamos ajustando a capa do livro dentro do card: ela aparece
+   inteira, sem cortar nem esticar (object-fit: contain), sobre um
+   fundo bege. Antes esse estilo estava escrito direto no HTML. */
+.capa-livro {
+    height: 260px;
+    width: 100%;
+    object-fit: contain;
+    padding: 14px;
+    background-color: var(--cor-areia-clara);
+    transition: transform 0.4s ease;
+}
+
+/* Aqui estamos dando um leve zoom na capa quando o mouse passa no card. */
+.card-livro:hover .capa-livro {
+    transform: scale(1.04);
+}
+
+.card-body {
+    padding: 1.4rem;
+}
+
+.card-title {
+    font-family: var(--fonte-titulo);
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.card .badge {
+    background-color: #F3E1E0;
+    color: var(--cor-rosa-escuro);
+    font-weight: 600;
+    border-radius: var(--raio-pilula);
+    padding: 0.4em 0.85em;
+}
+
+/* Aqui estamos colocando uma estrela dourada antes da "Nota média" do
+   card. A estrela vem do CSS (content), não precisamos mudar o HTML. */
+.nota-card::before {
+    content: "★ ";
+    color: var(--cor-estrela);
+}
+
+
+/* ---------- 9. PÁGINA DO LIVRO E AVALIAÇÕES ----------
+   Aqui estamos alterando a página de um livro: a parte com a capa e as
+   informações vira um quadro claro com cantos arredondados e sombra. */
+.livro-detalhe {
+    background-color: var(--cor-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+    padding: 2rem 1.25rem;
+    margin: 0 0 1.5rem;
+    box-shadow: var(--sombra-suave);
+}
+
+.livro-detalhe img {
+    width: 100%;
+    border-radius: var(--raio-medio) !important;
+    box-shadow: var(--sombra-forte) !important;
+    transition: transform var(--transicao);
+}
+
+.livro-detalhe img:hover {
+    transform: scale(1.02) rotate(-0.5deg);
+}
+
+.livro-detalhe h1 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    margin-bottom: 0.2rem;
+}
+
+.livro-detalhe h5 {
+    font-family: var(--fonte-texto);
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+}
+
+/* Aqui estamos destacando a nota média do livro: ela fica dentro de
+   uma "pílula" bege com uma estrela dourada na frente. */
+.nota-media {
+    display: inline-block;
+    margin: 0.5rem 0 0.4rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: var(--raio-pilula);
+    background-color: var(--cor-areia-clara);
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.nota-media::before {
+    content: "★ ";
+    color: var(--cor-estrela);
+}
+
+/* Aqui estamos colocando um tracinho rosa antes dos títulos "Deixe
+   sua avaliação" e "Avaliações dos leitores". */
+.titulo-secao {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.6rem;
+    margin-bottom: 1.25rem;
+}
+
+.titulo-secao::before {
+    content: "";
+    width: 28px;
+    height: 3px;
+    border-radius: 3px;
+    background-color: var(--cor-rosa);
+}
+
+/* Aqui estamos alterando cada avaliação dos leitores: vira um card com
+   uma barra rosa do lado esquerdo (parecendo um marcador de livro) e,
+   quando passamos o mouse, ele anda um pouquinho para a direita. */
+.card-avaliacao {
+    background-color: var(--cor-card);
+    border: 1px solid var(--cor-borda) !important;
+    border-left: 4px solid var(--cor-rosa) !important;
+    border-radius: var(--raio-medio) !important;
+    padding: 1.15rem 1.35rem !important;
+    box-shadow: var(--sombra-suave);
+    transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+.card-avaliacao:hover {
+    transform: translateX(4px);
+    box-shadow: var(--sombra-forte);
+}
+
+/* Aqui estamos trocando o amarelo forte das estrelas (★★★★☆) por um
+   dourado mais suave, que combina com o site. */
+.text-warning {
+    color: var(--cor-estrela) !important;
+    letter-spacing: 0.12em;
+}
+
+.form-avaliacao {
+    background-color: var(--cor-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande);
+    padding: 1.75rem;
+    box-shadow: var(--sombra-suave);
+}
+
+
+/* ---------- 10. FORMULÁRIOS ----------
+   Aqui estamos transformando os formulários (login, cadastro, contato,
+   publicar resenha, minha conta) em cartões claros e centralizados.
+   Usamos !important porque o Bootstrap já tinha estilos fortes nesses
+   formulários e precisávamos substituí-los. */
+.cartao-form {
+    background-color: var(--cor-card) !important;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-grande) !important;
+    box-shadow: var(--sombra-suave) !important;
+    padding: 2.5rem 2rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.cartao-form h3 {
+    font-size: 1.9rem;
+}
+
+/* Aqui estamos alterando os campos onde o usuário digita: ficam com
+   cantos arredondados e, quando clicamos neles, a borda fica rosa no
+   lugar do azul padrão do Bootstrap. */
+.form-control,
+.form-select {
+    background-color: #FFFEFB;
+    border: 1px solid #DCCAB7;
+    border-radius: var(--raio-medio);
+    color: var(--cor-texto);
+    padding: 0.7rem 1rem;
+    transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #fff;
+    border-color: var(--cor-rosa);
+    box-shadow: 0 0 0 4px rgba(183, 110, 121, 0.18);
+    color: var(--cor-texto);
+}
+
+.form-control[readonly] {
+    background-color: var(--cor-areia-clara);
+}
+
+.form-floating > .form-control {
+    height: calc(3.6rem + 2px);
+    padding-top: 1.625rem;
+    padding-bottom: 0.625rem;
+}
+
+.form-floating > label {
+    padding: 1rem 1rem;
+}
+
+.form-label,
+form > label {
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 0.4rem;
+}
+
+.miniatura-capa {
+    max-height: 160px;
+    border-radius: var(--raio-medio);
+}
+
+
+/* ---------- 11. BOTÕES ----------
+   Aqui estamos alterando todos os botões do site: ficam arredondados
+   (formato de pílula). Quando passamos o mouse, o botão sobe um pouco
+   e ganha sombra; quando clicamos, ele volta, como se fosse apertado. */
+.btn {
+    border-radius: var(--raio-pilula);
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    transition: background-color var(--transicao), border-color var(--transicao),
+                color var(--transicao), transform var(--transicao), box-shadow var(--transicao);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(143, 79, 90, 0.22);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.btn-sm {
+    padding: 0.35rem 1rem;
+}
+
+/* Aqui estamos alterando a cor dos botões principais, como "Publicar
+   resenha", "Ver livro", "Salvar" e "Explorar livros": passam a ser
+   rosa e escurecem quando passamos o mouse. */
+.btn-primary,
+.btn-success {
+    background-color: var(--cor-rosa);
+    border-color: var(--cor-rosa);
+    color: #fff;
+}
+
+.btn-primary:hover,
+.btn-success:hover,
+.btn-primary:focus,
+.btn-success:focus,
+.btn-primary:active,
+.btn-success:active {
+    background-color: var(--cor-rosa-escuro) !important;
+    border-color: var(--cor-rosa-escuro) !important;
+    color: #fff;
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 4px rgba(183, 110, 121, 0.3) !important;
+}
+
+/* Aqui estamos alterando os botões só com borda, como "Entrar para
+   publicar" e "Editar minha resenha": quando passamos o mouse, eles
+   ficam preenchidos de rosa. */
+.btn-outline-primary,
+.btn-outline-secondary {
+    background-color: transparent;
+    border: 1.5px solid var(--cor-rosa);
+    color: var(--cor-rosa-escuro);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
+    background-color: var(--cor-rosa);
+    border-color: var(--cor-rosa);
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: var(--cor-areia);
+    border-color: var(--cor-areia);
+    color: var(--cor-texto);
+}
+
+.btn-secondary:hover {
+    background-color: #DCC7AE;
+    border-color: #DCC7AE;
+    color: var(--cor-texto);
+}
+
+.btn-danger {
+    background-color: var(--cor-perigo);
+    border-color: var(--cor-perigo);
+}
+
+.btn-danger:hover {
+    background-color: #82323D;
+    border-color: #82323D;
+}
+
+/* Aqui estamos colocando a seta "→" no botão "Explorar livros". Ela é
+   criada pelo ::after e anda para a direita quando passamos o mouse. */
+.btn-seta::after {
+    content: "→";
+    display: inline-block;
+    margin-left: 0.45rem;
+    transition: transform var(--transicao);
+}
+
+.btn-seta:hover::after {
+    transform: translateX(4px);
+}
+
+
+/* ---------- 12. MENSAGENS DE AVISO ----------
+   Aqui estamos alterando as mensagens de sucesso e de erro (ex.:
+   "Resenha publicada com sucesso!") para cores mais suaves. */
+.alert {
+    border: 0;
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-suave);
+    animation: surgir 0.5s ease both;
+}
+
+.alert-success {
+    background-color: #EAF1E4;
+    color: #3F5B36;
+}
+
+.alert-danger {
+    background-color: #F6E1E1;
+    color: #7A2E38;
+}
+
+
+/* ---------- 13. FAIXA "UMA HISTÓRIA, MIL SENTIMENTOS" ----------
+   Aqui estamos montando a faixa do final da página de livros com CSS
+   Grid: duas colunas, a primeira (280px) para a imagem do livrinho e a
+   segunda (1fr = o resto do espaço) para o texto. */
+.faixa-sentimentos {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+    padding: 2.25rem 2rem;
+    border-radius: var(--raio-grande);
+    background-color: var(--cor-areia-clara);
+}
+
+.faixa-sentimentos img {
+    justify-self: center;
+    width: 176px;
+}
+
+.faixa-sentimentos h2 {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    margin-bottom: 0.5rem;
+}
+
+.faixa-sentimentos p {
+    max-width: 620px;
+    margin-bottom: 0;
+}
+
+
+/* ---------- 14. ANIMAÇÕES ----------
+   Aqui estamos criando as animações de entrada, que acontecem só uma
+   vez quando a página abre. "surgir" faz o conteúdo aparecer subindo;
+   "surgir-lado" faz as ilustrações do banner aparecerem aos poucos. */
+@keyframes surgir {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Aqui deixamos só o "from" para a ilustração terminar com a
+   transparência que definimos para cada tela (no celular é mais clara). */
+@keyframes surgir-lado {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+}
+
+/* Aqui estamos fazendo os cards de livros aparecerem um depois do
+   outro (efeito cascata), cada um com um pequeno atraso. */
+.lista-livros > div {
+    animation: surgir 0.55s ease both;
+}
+
+.lista-livros > div:nth-child(2) { animation-delay: 0.08s; }
+.lista-livros > div:nth-child(3) { animation-delay: 0.16s; }
+.lista-livros > div:nth-child(4) { animation-delay: 0.24s; }
+.lista-livros > div:nth-child(5) { animation-delay: 0.32s; }
+.lista-livros > div:nth-child(n+6) { animation-delay: 0.4s; }
+
+
+/* ---------- 15. RESPONSIVIDADE ----------
+   Aqui estamos adaptando o site para telas menores. Cada @media vale
+   para telas até a largura indicada. */
+
+/* Em notebooks: as ilustrações do banner ficam menores. */
+@media (max-width: 1199.98px) {
+    .hero-libris::before { width: 280px; opacity: 0.75; }
+    .hero-libris::after  { width: 220px; opacity: 0.75; }
+}
+
+/* Em tablets: o menu vira o botão "hambúrguer" e, ao abrir, aparece
+   dentro de uma caixa clara com cantos arredondados. */
+@media (max-width: 991.98px) {
+    .navbar-libris .navbar-collapse {
+        margin-top: 0.85rem;
+        padding: 0.75rem;
+        border-radius: var(--raio-medio);
+        background-color: var(--cor-card);
+        box-shadow: var(--sombra-suave);
+    }
+
+    .navbar-libris .nav-link::after {
+        display: none;
+    }
+
+    .navbar-libris .nav-link.nav-destaque {
+        display: inline-block;
+        margin: 0.4rem 0 0.2rem 0.4rem;
+    }
+
+    .hero-libris::before { width: 220px; opacity: 0.45; }
+    .hero-libris::after  { width: 170px; opacity: 0.45; }
+}
+
+/* Em celulares: as ilustrações do banner ficam bem clarinhas para não
+   atrapalhar o texto, a faixa do final passa a ter uma coluna só e o
+   botão "Publicar resenha" desce para baixo do título. */
+@media (max-width: 767.98px) {
+    .navbar-libris .navbar-brand img {
+        height: 44px;
+    }
+
+    .hero-libris {
+        min-height: 320px;
+        padding: 2.5rem 1.25rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .hero-libris::before { width: 150px; opacity: 0.3; }
+    .hero-libris::after  { width: 120px; opacity: 0.3; }
+
+    .cabecalho-secao {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .faixa-sentimentos {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 1.75rem 1.25rem;
+    }
+
+    .faixa-sentimentos p {
+        margin: 0 auto;
+    }
+
+    .cartao-form,
+    .livro-detalhe,
+    .form-avaliacao {
+        padding: 1.5rem 1.15rem !important;
+    }
+
+    .titulo-secao {
+        font-size: 1.35rem;
+    }
+
+    hr {
+        margin: 2rem 0;
+    }
+}
+
+/* Em celulares pequenos: o botão "Publicar resenha" ocupa a largura
+   toda, para ficar fácil de apertar com o dedo. */
+@media (max-width: 575.98px) {
+    .cabecalho-secao .btn {
+        width: 100%;
+    }
+
+    .hero-libris p {
+        font-size: 0.98rem;
+    }
+}
+
+
+/* ---------- 16. MOVIMENTO REDUZIDO ----------
+   Aqui estamos respeitando quem configurou o computador para ter menos
+   animações: nesse caso, todas as animações e movimentos são desligados. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .btn:hover,
+    .card-livro:hover,
+    .card-livro:hover .capa-livro,
+    .card-avaliacao:hover,
+    .livro-detalhe img:hover,
+    .navbar-libris .navbar-brand:hover img,
+    .navbar-libris .nav-link.nav-destaque:hover {
+        transform: none;
+    }
+}

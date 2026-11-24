@@ -51,7 +51,7 @@ body {
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
-  background-color: #fff;
+  background-color: #c5da0d;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -7400,11 +7400,11 @@ textarea.form-control-lg {
 }
 
 .bg-body {
-  background-color: #fff !important;
+  background-color: #F7F4EE !important;
 }
 
 .bg-white {
-  background-color: #fff !important;
+  background-color: #F7F4EE !important;
 }
 
 .bg-transparent {
@@ -10808,6 +10808,11 @@ textarea.form-control-lg {
 
   .d-print-none {
     display: none !important;
+  }
+
+  body {
+      background-color: #F7F4EE;
+
   }
 }
 /*# sourceMappingURL=bootstrap.rtl.css.map */

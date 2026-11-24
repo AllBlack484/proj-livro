@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #91028a;">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #EED5D8;">
     <div class="container-fluid">
         <a class="navbar-brand" href="/livros">Livraria</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Alternar navegação">
@@ -11,7 +11,7 @@
                 <li class="nav-item"><a class="nav-link" href="/contato">Contato</a></li>
                 {{#if user}}
                     {{#if (eq user.eAdmin 1)}}
-                    <li class="nav-item"><a class="nav-link" href="/admin">Painel administrativo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin"class="text-center titulo-avaliacoes" >Painel administrativo</a></li>
                     {{/if}}
                     <li class="nav-item"><a class="nav-link" href="/usuarios/conta">Minha conta</a></li>
                     <li class="nav-item"><a class="nav-link" href="/usuarios/logout">Sair</a></li>

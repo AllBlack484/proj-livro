@@ -1,9 +1,9 @@
-<h1>Gerenciar avaliações</h1>
+<h1 class="text-center titulo-avaliacoes">Gerenciar avaliações</h1>
 {{#each avaliacoes}}
 <div class="card mb-3"><div class="card-body">
     <div class="d-flex justify-content-between align-items-start gap-2">
         <div><h5>{{livro.titulo}}</h5><p class="mb-1">Por: {{usuario.nome}} ({{usuario.email}})</p><p class="text-warning mb-1">{{estrelas estrelas}}</p><p>{{comentario}}</p></div>
-        <form method="POST" action="/admin/avaliacoes/excluir/{{_id}}" onsubmit="return confirm('Excluir esta avaliação?')"><button class="btn btn-danger btn-sm">Excluir</button></form>
+        <form method="POST" action="/admin/avaliacoes/excluir/{{_id}}" onsubmit="return confirm('Excluir esta avaliação?')"><button class="btn btn-sucess btn-sm">Excluir</button></form>
     </div>
 </div></div>
-{{else}}<p>Nenhuma avaliação cadastrada.</p>{{/each}}
+{{else}}<p>Nenhuma avaliação.</p>{{/each}}
